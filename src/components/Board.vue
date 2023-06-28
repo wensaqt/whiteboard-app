@@ -4,19 +4,26 @@
             <font-awesome-icon :icon="['fas', 'list']" class="addChecklist boardComponent" @click="createChecklist"/>
             <font-awesome-icon :icon="['fas', 'sticky-note']" class="boardComponent" />
         </div>
-        <Checklist v-for="(checklist, index) in checklists" :key="index"/>
+        <Checklist v-for="(checklist, index) in board.checklists" :key="index" :checklist="checklist"/>
     </div>
 </template>
 
+
 <script setup>
-    import { ref } from 'vue';
+
     import Checklist from './Checklist.vue';
 
-    let checklists = ref([]);
-    let notes = ref([]);
+    const props = defineProps({
+        board: Object,
+    });
 
     const createChecklist = () => {
-        checklists.value.push({});
+        const newChecklist = {
+            id: props.board.checklists.length,
+            tasks: [],
+        };
+        props.board.checklists.push(newChecklist);
+        console.log(props.board.checklists);
     }
 
 </script>

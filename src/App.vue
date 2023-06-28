@@ -6,10 +6,26 @@
     let boardName = ref('My awesome new board');
     let editing = ref(false);
 
+    let boards = ref([])
+
     const createBoard = () => {
         boardCreated.value = true;
+        const newBoard = {
+            id: boards.value.length,
+            name: boardName.value,
+            created: new Date(),
+            checklists: [],
+            notes: [],
+        }
+        boards.value.push(newBoard);
+        currentBoard.value = newBoard;
+        console.log(currentBoard.value);
     }
 
+    let currentBoard = ref(null);
+    const selectBoard = (board) => {
+        currentBoard.value = board;
+    }
 </script>
 
 <template>
@@ -27,8 +43,8 @@
         </header>
 
         <main>
-            <div class ="boardContainer" v-if="boardCreated">
-                <Board />
+            <div class="boardContainer" v-if="boardCreated">
+                <Board v-if="currentBoard" :board="currentBoard" />
             </div>
         </main>
     </section> 

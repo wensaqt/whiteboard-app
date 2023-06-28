@@ -7,10 +7,10 @@
         @mouseup="mouseUp"
     >
         <div class="tasks">
-            <div class="task" v-for="(todo, index) in todos" :key="index">
-                {{ todo.value }}
+            <div class="task" v-for="(task, index) in tasks" :key="index">
+                {{ task.value }}
                 <div class="taskIcons">
-                    <div class="checkmark" :class="{ 'is-checked': todo.checked }" @click="checkTask(index)"></div>
+                    <div class="checkmark" :class="{ 'is-checked': task.checked }" @click="checkTask(index)"></div>
                     <font-awesome-icon icon="trash" class="trashIcon" @click="dropTask(index)" />
                 </div>
             </div>
@@ -26,7 +26,11 @@
 <script setup>
     import { ref, nextTick, onMounted } from 'vue';
 
-    let todos = ref([]);
+    const props = defineProps({
+        checklist: Object
+    });
+
+    let tasks = props.checklist.tasks;
     let newTask = ref('');
     let x = ref(0);
     let y = ref(0);
@@ -45,18 +49,20 @@
 });
 
     const addNewTask = () => {
-        if(newTask.value.trim() !== '') {
-            todos.value.push({ value: newTask.value, checked: false });
+        if (newTask.value.trim() !== '') {
+            // Push the new task to the tasks array
+            tasks.push({ value: newTask.value, checked: false });
             newTask.value = '';
         }
+        console.log(props.board.checklist)
     }
 
     const checkTask = (index) => {
-        todos.value[index].checked = !todos.value[index].checked;
+        tasks[index].checked = !tasks[index].checked;
     }
 
     const dropTask = (index) => {
-        todos.value.splice(index, 1);
+        tasks.splice(index, 1);
     }
 
     const mouseDown = (event) => {
