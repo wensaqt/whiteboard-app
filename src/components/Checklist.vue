@@ -18,7 +18,7 @@
 
         <div class="addNewTask" @mousedown.stop>
             <input type="text" v-model="newTask" placeholder="Add new task...">
-            <div class="addNewTask-button" @click="addNewTask"><p>+</p></div>
+            <font-awesome-icon  class="addNewTask-button" @click="addNewTask" :icon="['fas', 'plus']" />
         </div>
     </div>
 </template>
@@ -187,9 +187,9 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        height: 30px;
-        width: 30px;
-        font-size: 1em;
+        height: 15px;
+        width: 15px;
+        padding: 0.5em;
         color: white;
         background-color: rgba(0, 0, 0, 0.718);
         border-radius: 100%;
