@@ -1,9 +1,13 @@
-# Todos
+# About this project
+
+This project's "raison d'être" is just to train myself to manipulate Vue.js. It's certainly not professional, and the code will probably have to be reworked afterwards.
+
+## Todos
 
 - Fix the app's use on Chrome, which has many display bugs for some reason
-- Add notes to white boards
+- Make note handling more flexible: add resizing, and make them persistent when switching boards (like checklists)
 - Add image placeholders
-- Make the app responsive
+- Make the app fully responsive
 
 ## Recommended IDE Setup
 
