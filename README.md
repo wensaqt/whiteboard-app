@@ -1,6 +1,9 @@
-# checklist
+# Todos
 
-This template should help get you started developing with Vue 3 in Vite.
+- Fix the app's use on Chrome, which has many display bugs for some reason
+- Add notes to white boards
+- Add image placeholders
+- Make the app responsive
 
 ## Recommended IDE Setup
 
