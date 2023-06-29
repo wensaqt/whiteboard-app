@@ -2,13 +2,19 @@
     <div class="board">
         <div class="boardComponents">
             <font-awesome-icon :icon="['fas', 'list']" class="addChecklist boardComponent" @click="createChecklist"/>
-            <font-awesome-icon :icon="['fas', 'sticky-note']" class="boardComponent" />
+            <font-awesome-icon :icon="['fas', 'sticky-note']" class="boardComponent" @click="createNote"/>
         </div>
         <Checklist 
             v-for="(checklist, index) in board.checklists" 
             :key="index" 
             :checklist="checklist"
-            @update-position="updateChecklistPosition(index, $event)"
+            @update-position="updateChecklistPosition"
+        />
+        <Note
+            v-for="(note, index) in board.notes" 
+            :key="index"
+            :note="note"
+            @update-position="updateNotePosition"
         />
     </div>
 </template>
@@ -17,6 +23,7 @@
 <script setup>
 
     import Checklist from './Checklist.vue';
+    import Note from './Note.vue';
 
     const props = defineProps({
         board: Object,
@@ -31,6 +38,32 @@
         };
         props.board.checklists.push(newChecklist);
         console.log(props.board.checklists);
+    }
+
+    const updateChecklistPosition = ({ id, x, y }) => {
+        const checklist = props.board.checklists.find(checklist => checklist.id === id);
+        if (checklist) {
+            checklist.currentXLocation = x;
+            checklist.currentYLocation = y;
+        }
+    }
+
+    const createNote = () => {
+        const newNote = {
+            id: props.board.notes.length,
+            currentXLocation: 0,
+            currentYLocation: 0
+        };
+        props.board.notes.push(newNote)
+        console.log(props.board.notes)
+    }
+
+    const updateNotePosition = ({ id, x, y }) => {
+        const note = props.board.notes.find(note => note.id === id);
+        if (note) {
+            note.currentXLocation = x;
+            note.currentYLocation = y;
+        }
     }
 
 </script>

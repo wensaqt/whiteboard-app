@@ -23,10 +23,6 @@
         console.log(currentBoard.value);
     }
 
-    const selectBoard = (board) => {
-        currentBoard.value = board;
-    }
-
     const goBackToPreviousBoard = () => {
         if (currentBoard.value && boards.value.length > 1) {
             const currentIndex = boards.value.indexOf(currentBoard.value);

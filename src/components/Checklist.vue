@@ -77,7 +77,6 @@
             let boardRect = document.querySelector('.board').getBoundingClientRect();
             let checklistRect = document.querySelector('.checklistContainer').getBoundingClientRect();
 
-            // calculate the new position
             let newX = event.clientX - offsetX.value;
             let newY = event.clientY - offsetY.value;
 
@@ -90,11 +89,9 @@
             x.value = newX;
             y.value = newY;
 
-            // Update the checklist object with the new position
-            props.checklist.currentXLocation = newX;
-            props.checklist.currentYLocation = newY;
+            // emit the event with the new position
+            emit('update-position', { id: props.checklist.id, x: newX, y: newY });
 
-            emit('update-position', { x: newX, y: newY });
         }
     }
 
