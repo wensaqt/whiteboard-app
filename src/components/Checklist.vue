@@ -1,6 +1,6 @@
 <template>
     <div 
-    class="checklistContainer"
+        class="checklistContainer"
         :style="{left: `${x}px`, top: `${y}px`, position: 'absolute'}"
         @mousedown="mouseDown"
         @mousemove="mouseMove"
@@ -30,6 +30,8 @@
         checklist: Object
     });
 
+    const emit = defineEmits(['update-position']);
+
     let tasks = props.checklist.tasks;
     let newTask = ref('');
     let x = ref(0);
@@ -41,12 +43,9 @@
     onMounted(async () => {
     await nextTick();
 
-    let boardRect = document.querySelector('.board').getBoundingClientRect();
-    let checklistRect = document.querySelector('.checklistContainer').getBoundingClientRect();
-
-    x.value = boardRect.width / 2 - checklistRect.width / 2;
-    y.value = boardRect.height / 2 - checklistRect.height / 2;
-});
+        x.value = props.checklist.currentXLocation;
+        y.value = props.checklist.currentYLocation;
+    });
 
     const addNewTask = () => {
         if (newTask.value.trim() !== '') {
@@ -90,6 +89,12 @@
 
             x.value = newX;
             y.value = newY;
+
+            // Update the checklist object with the new position
+            props.checklist.currentXLocation = newX;
+            props.checklist.currentYLocation = newY;
+
+            emit('update-position', { x: newX, y: newY });
         }
     }
 

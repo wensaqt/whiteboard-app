@@ -4,7 +4,12 @@
             <font-awesome-icon :icon="['fas', 'list']" class="addChecklist boardComponent" @click="createChecklist"/>
             <font-awesome-icon :icon="['fas', 'sticky-note']" class="boardComponent" />
         </div>
-        <Checklist v-for="(checklist, index) in board.checklists" :key="index" :checklist="checklist"/>
+        <Checklist 
+            v-for="(checklist, index) in board.checklists" 
+            :key="index" 
+            :checklist="checklist"
+            @update-position="updateChecklistPosition(index, $event)"
+        />
     </div>
 </template>
 
@@ -21,6 +26,8 @@
         const newChecklist = {
             id: props.board.checklists.length,
             tasks: [],
+            currentXLocation: 0,
+            currentYLocation: 0
         };
         props.board.checklists.push(newChecklist);
         console.log(props.board.checklists);
