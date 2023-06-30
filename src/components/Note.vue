@@ -26,8 +26,8 @@
 
     let { x, y, mouseDown, mouseMove, mouseUp } = dragElement();
 
-    let width = ref(200);
-    let height = ref(200);
+    let width = ref();
+    let height = ref();
     let editing = ref(false);
     let resizing = ref(false);
     let noteContent = ref('');
@@ -37,13 +37,16 @@
         x.value = props.note.currentXLocation;
         y.value = props.note.currentYLocation;
         noteContent.value = props.note.noteContent;
+        width.value = props.note.currentWidth;
+        height.value = props.note.currentHeight;
+
     });
 
     onUnmounted(() => {
         removeEventListenersWhenDoneResizing();
     });
 
-    const emit = defineEmits(['update-position', 'update-content']);
+    const emit = defineEmits(['update-position', 'update-content', 'update-size']);
 
     const updateElementPosition = (event) => {
         mouseMove(event);
@@ -79,6 +82,7 @@
     };
 
     const stopNoteResizing = () => {
+        emitNoteNewSize();
         resizing.value = false;
         removeEventListenersWhenDoneResizing();
     };
@@ -88,6 +92,10 @@
         window.removeEventListener('mouseup', stopNoteResizing);
     };
 
+    const emitNoteNewSize = () => {
+        emit('update-size', { id: props.note.id, width: width.value, height: height.value });
+    }
+
 </script>
 
 <style>
@@ -96,6 +104,7 @@
         padding: 10px;
         position: relative;
     }
+
     .noteContainer textarea {
         width: 100%;
         height: 100%;

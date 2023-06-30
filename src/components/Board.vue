@@ -17,6 +17,7 @@
             :note="note"
             @update-position="updateNotePosition"
             @update-content="updateNoteContent"
+            @update-size="updateNoteSize"
         />
     </div>
 </template>
@@ -57,14 +58,13 @@
         }
     }
 
-
     const createNote = () => {
         const newNote = {
             id: props.board.notes.length,
             currentXLocation: 0,
             currentYLocation: 0,
-            currentHeight: 0,
-            currentWidth: 0,
+            currentHeight: 200,
+            currentWidth: 200,
             noteContent: 'Click twice to edit note...'
         };
         props.board.notes.push(newNote)
@@ -84,6 +84,14 @@
         if (note) {
         note.noteContent = content;
         console.log('note content updated !')
+        }
+    };
+
+    const updateNoteSize = ({ id, width, height }) => {
+        const note = props.board.notes.find(note => note.id === id);
+        if (note) {
+            note.currentWidth = width;
+            note.currentHeight = height;
         }
     };
 
