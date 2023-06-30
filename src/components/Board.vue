@@ -15,6 +15,7 @@
             :key="index"
             :note="note"
             @update-position="updateNotePosition"
+            @update-content="updateNoteContent"
         />
     </div>
 </template>
@@ -22,7 +23,8 @@
 
 <script setup>
 
-    import Checklist from './Checklist.vue';
+    import { ref } from 'vue';
+import Checklist from './Checklist.vue';
     import Note from './Note.vue';
 
     const props = defineProps({
@@ -52,7 +54,10 @@
         const newNote = {
             id: props.board.notes.length,
             currentXLocation: 0,
-            currentYLocation: 0
+            currentYLocation: 0,
+            currentHeight: 0,
+            currentWidth: 0,
+            noteContent: 'Click twice to edit note...'
         };
         props.board.notes.push(newNote)
         console.log(props.board.notes)
@@ -65,6 +70,14 @@
             note.currentYLocation = y;
         }
     }
+
+    const updateNoteContent = ({ id, content }) => {
+        const note = props.board.notes.find(note => note.id === id);
+        if (note) {
+        note.noteContent = content;
+        console.log('note content updated !')
+        }
+    };
 
 </script>
 

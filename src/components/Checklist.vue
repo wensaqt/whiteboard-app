@@ -43,18 +43,17 @@
 
     const addNewTask = () => {
         if (newTask.value.trim() !== '') {
-            // Push the new task to the tasks array
             tasks.value.push({ value: newTask.value, checked: false });
             newTask.value = '';
         }
     }
 
     const checkTask = (index) => {
-        tasks[index].checked = !tasks[index].checked;
+        tasks.value[index].checked = !tasks.value[index].checked;
     }
 
     const dropTask = (index) => {
-        tasks.splice(index, 1);
+        tasks.value.splice(index, 1);
     }
 
     const emit = defineEmits(['update-position']);
