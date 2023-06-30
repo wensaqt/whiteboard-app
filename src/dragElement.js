@@ -6,9 +6,11 @@ export function dragElement() {
     const offsetX = ref(0);
     const offsetY = ref(0);
     const isDragging = ref(false);
+    let currentElement = null;
 
     const mouseDown = (event) => {
         isDragging.value = true;
+        currentElement = event.target;
         offsetX.value = event.clientX - x.value;
         offsetY.value = event.clientY - y.value;
         event.preventDefault();
@@ -17,7 +19,7 @@ export function dragElement() {
     const mouseMove = (event) => {
         if (isDragging.value) {
             let parentRect = document.querySelector('.board').getBoundingClientRect();
-            let noteRect = document.querySelector('.component').getBoundingClientRect();
+            let noteRect = currentElement.getBoundingClientRect();
 
             let newX = event.clientX - offsetX.value;
             let newY = event.clientY - offsetY.value;
@@ -34,6 +36,7 @@ export function dragElement() {
 
     const mouseUp = () => {
         isDragging.value = false;
+        currentElement = null; 
     }
 
     return { x, y, mouseDown, mouseMove, mouseUp };
