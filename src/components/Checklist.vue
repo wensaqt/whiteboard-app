@@ -7,7 +7,7 @@
         @mouseup="mouseUp"
     >
         <div class="tasks">
-            <div class="task" v-for="(task, index) in tasks" :key="index">
+            <div class="task" v-for="(task, index) in props.checklist.tasks" :key="index">
                 {{ task.value }}
                 <div class="taskIcons">
                     <div class="checkmark" :class="{ 'is-checked': task.checked }" @click="checkTask(index)"></div>
@@ -17,7 +17,7 @@
         </div>
 
         <div class="addNewTask" @mousedown.stop>
-            <input type="text" v-model="newTask" placeholder="Add new task...">
+            <input type="text" id="addNewTaskInput" v-model="newTask" placeholder="Add new task...">
             <font-awesome-icon  class="addNewTask-button" @click="addNewTask" :icon="['fas', 'plus']" />
         </div>
     </div>
@@ -32,8 +32,10 @@
     });
 
     let { x, y, mouseDown, mouseMove, mouseUp } = dragElement();
-    let tasks = ref([]);
     let newTask = ref('');
+
+    
+    const emit = defineEmits(['update-position', 'update-tasks']);
 
     onMounted(async () => {
     await nextTick();
@@ -43,20 +45,25 @@
 
     const addNewTask = () => {
         if (newTask.value.trim() !== '') {
-            tasks.value.push({ value: newTask.value, checked: false });
-            newTask.value = '';
+            props.checklist.tasks.push({value: newTask.value, checked: false});
+            emitChecklistTaskOperations();
         }
     }
 
     const checkTask = (index) => {
-        tasks.value[index].checked = !tasks.value[index].checked;
+        props.checklist.tasks[index].checked = !props.checklist.tasks[index].checked;
+        emitChecklistTaskOperations();
     }
 
     const dropTask = (index) => {
-        tasks.value.splice(index, 1);
+        props.checklist.tasks.splice(index, 1);
+        emitChecklistTaskOperations();
     }
 
-    const emit = defineEmits(['update-position']);
+    const emitChecklistTaskOperations = () => {
+        emit('update-tasks', props.checklist.id, props.checklist.tasks);
+        newTask.value = '';
+    }
 
     const updateElementPosition = (event) => {
         mouseMove(event);

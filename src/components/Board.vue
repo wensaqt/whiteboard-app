@@ -9,6 +9,7 @@
             :key="index" 
             :checklist="checklist"
             @update-position="updateChecklistPosition"
+            @update-tasks="updateChecklistTasks"
         />
         <Note
             v-for="(note, index) in board.notes" 
@@ -23,8 +24,7 @@
 
 <script setup>
 
-    import { ref } from 'vue';
-import Checklist from './Checklist.vue';
+    import Checklist from './Checklist.vue';
     import Note from './Note.vue';
 
     const props = defineProps({
@@ -49,6 +49,14 @@ import Checklist from './Checklist.vue';
             checklist.currentYLocation = y;
         }
     }
+
+    const updateChecklistTasks = (id, tasks) => {
+        const checklist = props.board.checklists.find(checklist => checklist.id === id);
+        if (checklist) {
+            checklist.tasks = tasks;
+        }
+    }
+
 
     const createNote = () => {
         const newNote = {
