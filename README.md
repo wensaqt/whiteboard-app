@@ -6,7 +6,6 @@ This project's "raison d'être" is just to train myself to manipulate Vue.js. It
 
 - Fix the app's use on Chrome, which has many display bugs for some reason
 - Make note handling more flexible: add resizing, and make them persistent when switching boards (like checklists)
-- Fix the bug with notes that take the same dimensions as checklists (need to find a way of separating component selection)
 - Add image placeholders
 - Make the app fully responsive
 - Create a small back office to store users and recall previously created boards and project will be done 
