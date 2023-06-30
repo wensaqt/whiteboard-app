@@ -1,9 +1,9 @@
 <template>
     <div 
-        class="checklistContainer"
+        class="checklistContainer component"
         :style="{left: `${x}px`, top: `${y}px`, position: 'absolute'}"
         @mousedown="mouseDown"
-        @mousemove="mouseMove"
+        @mousemove="updateElementPosition"
         @mouseup="mouseUp"
     >
         <div class="tasks">
@@ -25,24 +25,18 @@
 
 <script setup>
     import { ref, nextTick, onMounted } from 'vue';
+    import { dragElement } from '../dragElement';
 
     const props = defineProps({
         checklist: Object
     });
 
-    const emit = defineEmits(['update-position']);
-
-    let tasks = props.checklist.tasks;
+    let { x, y, mouseDown, mouseMove, mouseUp } = dragElement();
+    let tasks = ref([]);
     let newTask = ref('');
-    let x = ref(0);
-    let y = ref(0);
-    let offsetX = ref(0);
-    let offsetY = ref(0);
-    let isDragging = ref(false);
 
     onMounted(async () => {
     await nextTick();
-
         x.value = props.checklist.currentXLocation;
         y.value = props.checklist.currentYLocation;
     });
@@ -50,10 +44,9 @@
     const addNewTask = () => {
         if (newTask.value.trim() !== '') {
             // Push the new task to the tasks array
-            tasks.push({ value: newTask.value, checked: false });
+            tasks.value.push({ value: newTask.value, checked: false });
             newTask.value = '';
         }
-        console.log(props.board.checklist)
     }
 
     const checkTask = (index) => {
@@ -64,42 +57,12 @@
         tasks.splice(index, 1);
     }
 
-    const mouseDown = (event) => {
-        isDragging.value = true;
-        offsetX.value = event.clientX - x.value;
-        offsetY.value = event.clientY - y.value;
-        event.preventDefault();
-    }
+    const emit = defineEmits(['update-position']);
 
-    const mouseMove = (event) => {
-        if (isDragging.value) {
-            // get the dimensions of the board and checklist
-            let boardRect = document.querySelector('.board').getBoundingClientRect();
-            let checklistRect = document.querySelector('.checklistContainer').getBoundingClientRect();
-
-            let newX = event.clientX - offsetX.value;
-            let newY = event.clientY - offsetY.value;
-
-            // ensure the checklist stays within the board
-            if (newX < boardRect.left) newX = boardRect.left;
-            if (newY < boardRect.top) newY = boardRect.top;
-            if (newX > boardRect.right - checklistRect.width) newX = boardRect.right - checklistRect.width;
-            if (newY > boardRect.bottom - checklistRect.height) newY = boardRect.bottom - checklistRect.height;
-
-            x.value = newX;
-            y.value = newY;
-
-            // emit the event with the new position
-            emit('update-position', { id: props.checklist.id, x: newX, y: newY });
-
-        }
-    }
-
-    const mouseUp = (event) => {
-        if (isDragging.value) {
-            isDragging.value = false;
-        }
-    }
+    const updateElementPosition = (event) => {
+        mouseMove(event);
+        emit('update-position', { id: props.checklist.id, x: x.value, y: y.value });
+    };
     
 </script>
 
