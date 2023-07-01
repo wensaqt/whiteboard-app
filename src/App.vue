@@ -1,6 +1,7 @@
 <script setup>
     import { ref } from 'vue';
     import Board from './components/Board.vue'
+    import './assets/main.css';
 
     let boardCreated = ref(false);
     let boardName = ref('My awesome new board');
