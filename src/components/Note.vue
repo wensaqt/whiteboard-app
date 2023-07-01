@@ -17,21 +17,30 @@
 </template>
 
 <script setup>
+    // Necessary imports from Vue.js
     import { ref, nextTick, onMounted, onUnmounted } from 'vue';
+    // Import the drag and drop function
     import { dragElement } from '../dragElement';
 
+    // Define the component properties
     const props = defineProps({
         note: Object
     });
 
+    // Initialize variables needed for moving the element
     let { x, y, mouseDown, mouseMove, mouseUp } = dragElement();
 
+    // Initialize variables for the width, height, editing state, resizing state and note content
     let width = ref();
     let height = ref();
     let editing = ref(false);
     let resizing = ref(false);
     let noteContent = ref('');
 
+    /**
+    * Vue.js lifecycle hook - onMounted
+    * It sets initial values after the component is mounted.
+    */
     onMounted(async () => {
         await nextTick();
         x.value = props.note.currentXLocation;
@@ -39,20 +48,32 @@
         noteContent.value = props.note.noteContent;
         width.value = props.note.currentWidth;
         height.value = props.note.currentHeight;
-
     });
 
+    /**
+    * Vue.js lifecycle hook - onUnmounted
+    * It removes the event listeners when the component is unmounted.
+    */
     onUnmounted(() => {
         removeEventListenersWhenDoneResizing();
     });
 
+    // Define the custom events to emit
     const emit = defineEmits(['update-position', 'update-content', 'update-size']);
 
+    /**
+    * Function to update the position of the element
+    * @param {Event} event - The triggered DOM event.
+    */
     const updateElementPosition = (event) => {
         mouseMove(event);
         emit('update-position', { id: props.note.id, x: x.value, y: y.value });
     };
 
+    /**
+    * Function to emit the new content of the note
+    * @param {Event} event - The triggered DOM event.
+    */
     const emitNoteNewContent = (event) => {
         console.log('emitNoteNewContent called');
         emit('update-content', { id: props.note.id, content: noteContent.value });
@@ -60,12 +81,20 @@
         editing.value = false;
     };
 
+    /**
+    * Function to check if the note is in editing state and perform mouseDown if it's not.
+    * @param {Event} event - The triggered DOM event.
+    */
     const isEditingNote = (event) => {
         if (!editing.value) {
             mouseDown(event);
         }
     };
 
+    /**
+    * Function to initialize the resizing of the note
+    * @param {Event} event - The triggered DOM event.
+    */
     const initNoteResizing = (event) => {
         resizing.value = true;
         event.preventDefault(),
@@ -74,6 +103,10 @@
         window.addEventListener('mouseup', stopNoteResizing);
     };
 
+    /**
+    * Function to resize the note during mousemove
+    * @param {Event} event - The triggered DOM event.
+    */
     const resizeNote = (event) => {
         if (resizing.value) {
             width.value = event.clientX - x.value;
@@ -81,21 +114,29 @@
         }
     };
 
+    /**
+    * Function to stop resizing the note
+    */
     const stopNoteResizing = () => {
         emitNoteNewSize();
         resizing.value = false;
         removeEventListenersWhenDoneResizing();
     };
 
+    /**
+    * Function to remove the event listeners when done resizing
+    */
     const removeEventListenersWhenDoneResizing = () => {
         window.removeEventListener('mousemove', resizeNote);
         window.removeEventListener('mouseup', stopNoteResizing);
     };
 
+    /**
+    * Function to emit the new size of the note
+    */
     const emitNoteNewSize = () => {
         emit('update-size', { id: props.note.id, width: width.value, height: height.value });
     }
-
 </script>
 
 <style>

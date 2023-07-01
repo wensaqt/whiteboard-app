@@ -2,13 +2,15 @@
 
 This project's "raison d'être" is just to train myself to manipulate Vue.js. It's certainly not professional, and the code will probably have to be reworked afterwards.
 
-## Todo-list
+Update 01/07/23: the project is coming to an end, the week is over. I had set out to build a small back office to store users and, by extension, boards, but I came up against the monster that is MongoDB. If anyone passes by, I'd be happy to have someone explain to me why my /register route isn't working (see server.js and Register.vue), because right now, it's black magic for me. I tested it with Postman, it works; but axios keeps returning a 404 error and I don't know why.
+
+## Todo-list (to resume later, when I have more time on my hands)
 
 - Fix the app's use on Chrome, which has many display bugs for some reason
 - Ensure that resizing a note does not overflow the board
 - Add image placeholders
 - Make the app fully responsive
-- Create a small back office to store users and recall previously created boards and project will be done 
+- Add data to users' collection to save boards & there components 
 
 ## Recommended IDE Setup
 

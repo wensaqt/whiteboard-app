@@ -1,6 +1,11 @@
 import { ref } from 'vue';
 
+/**
+ * A Vue composition API function to handle drag and drop functionality.
+ * @returns {Object} The x and y coordinates of the element and functions to handle mouse down, move and up events.
+ */
 export function dragElement() {
+    // Create refs for the x and y coordinates, offsets and dragging state
     const x = ref(0);
     const y = ref(0);
     const offsetX = ref(0);
@@ -8,6 +13,10 @@ export function dragElement() {
     const isDragging = ref(false);
     let currentElement = null;
 
+    /**
+     * Handles the mousedown event.
+     * @param {Object} event - The mousedown event.
+     */
     const mouseDown = (event) => {
         isDragging.value = true;
         currentElement = event.target;
@@ -16,6 +25,10 @@ export function dragElement() {
         event.preventDefault();
     }
 
+    /**
+     * Handles the mousemove event.
+     * @param {Object} event - The mousemove event.
+     */
     const mouseMove = (event) => {
         if (isDragging.value) {
             let parentRect = document.querySelector('.board').getBoundingClientRect();
@@ -34,6 +47,9 @@ export function dragElement() {
         }
     }
 
+    /**
+     * Handles the mouseup event.
+     */
     const mouseUp = () => {
         isDragging.value = false;
         currentElement = null; 

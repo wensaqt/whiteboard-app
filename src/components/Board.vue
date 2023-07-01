@@ -32,6 +32,9 @@
         board: Object,
     });
 
+    /**
+     * Creates a new checklist and adds it to the board's checklist array.
+     */
     const createChecklist = () => {
         const newChecklist = {
             id: props.board.checklists.length,
@@ -43,6 +46,14 @@
         console.log(props.board.checklists);
     }
 
+    /**
+     * Updates the position of a specific checklist on the board.
+     *
+     * @param {Object} param0 - An object containing the ID and coordinates of the checklist.
+     * @param {number} param0.id - The ID of the checklist.
+     * @param {number} param0.x - The new X position of the checklist.
+     * @param {number} param0.y - The new Y position of the checklist.
+     */
     const updateChecklistPosition = ({ id, x, y }) => {
         const checklist = props.board.checklists.find(checklist => checklist.id === id);
         if (checklist) {
@@ -51,6 +62,12 @@
         }
     }
 
+    /**
+     * Updates the tasks of a specific checklist on the board.
+     *
+     * @param {number} id - The ID of the checklist.
+     * @param {Array} tasks - The new tasks for the checklist.
+     */
     const updateChecklistTasks = (id, tasks) => {
         const checklist = props.board.checklists.find(checklist => checklist.id === id);
         if (checklist) {
@@ -58,6 +75,9 @@
         }
     }
 
+    /**
+     * Creates a new note and adds it to the board's notes array.
+     */
     const createNote = () => {
         const newNote = {
             id: props.board.notes.length,
@@ -71,6 +91,14 @@
         console.log(props.board.notes)
     }
 
+    /**
+     * Updates the position of a specific note on the board.
+     *
+     * @param {Object} param0 - An object containing the ID and coordinates of the note.
+     * @param {number} param0.id - The ID of the note.
+     * @param {number} param0.x - The new X position of the note.
+     * @param {number} param0.y - The new Y position of the note.
+     */
     const updateNotePosition = ({ id, x, y }) => {
         const note = props.board.notes.find(note => note.id === id);
         if (note) {
@@ -79,6 +107,13 @@
         }
     }
 
+    /**
+     * Updates the content of a specific note on the board.
+     *
+     * @param {Object} param0 - An object containing the ID and new content of the note.
+     * @param {number} param0.id - The ID of the note.
+     * @param {string} param0.content - The new content for the note.
+     */
     const updateNoteContent = ({ id, content }) => {
         const note = props.board.notes.find(note => note.id === id);
         if (note) {
@@ -87,6 +122,14 @@
         }
     };
 
+    /**
+     * Updates the size of a specific note on the board.
+     *
+     * @param {Object} param0 - An object containing the ID and new size of the note.
+     * @param {number} param0.id - The ID of the note.
+     * @param {number} param0.width - The new width of the note.
+     * @param {number} param0.height - The new height of the note.
+     */
     const updateNoteSize = ({ id, width, height }) => {
         const note = props.board.notes.find(note => note.id === id);
         if (note) {

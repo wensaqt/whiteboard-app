@@ -24,25 +24,37 @@
 </template>
 
 <script setup>
+    // Import necessary functionality from Vue.js
     import { ref, nextTick, onMounted } from 'vue';
+    // Import the dragElement module
     import { dragElement } from '../dragElement';
 
+    // Define the props for the component
     const props = defineProps({
         checklist: Object
     });
 
+    // Use the dragElement functionality
     let { x, y, mouseDown, mouseMove, mouseUp } = dragElement();
+    // Create a ref for a new task
     let newTask = ref('');
 
-    
+    // Define the events this component can emit
     const emit = defineEmits(['update-position', 'update-tasks']);
 
+    /**
+    * When the component is mounted, set the x and y values
+    * to the current location of the checklist.
+    */
     onMounted(async () => {
-    await nextTick();
+        await nextTick();
         x.value = props.checklist.currentXLocation;
         y.value = props.checklist.currentYLocation;
     });
 
+    /**
+    * Function to add a new task
+    */
     const addNewTask = () => {
         if (newTask.value.trim() !== '') {
             props.checklist.tasks.push({value: newTask.value, checked: false});
@@ -50,26 +62,41 @@
         }
     }
 
+    /**
+    * Function to check off a task
+    * @param {number} index - The index of the task to check off
+    */
     const checkTask = (index) => {
         props.checklist.tasks[index].checked = !props.checklist.tasks[index].checked;
         emitChecklistTaskOperations();
     }
 
+    /**
+    * Function to remove a task
+    * @param {number} index - The index of the task to remove
+    */
     const dropTask = (index) => {
         props.checklist.tasks.splice(index, 1);
         emitChecklistTaskOperations();
     }
 
+    /**
+    * Function to emit an event when a task operation occurs
+    */
     const emitChecklistTaskOperations = () => {
         emit('update-tasks', props.checklist.id, props.checklist.tasks);
         newTask.value = '';
     }
 
+    /**
+    * Function to update the position of an element
+    * @param {Object} event - The event object
+    */
     const updateElementPosition = (event) => {
         mouseMove(event);
         emit('update-position', { id: props.checklist.id, x: x.value, y: y.value });
     };
-    
+
 </script>
 
 

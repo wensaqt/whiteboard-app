@@ -1,15 +1,21 @@
 <script setup>
+
     import { ref } from 'vue';
     import Board from './components/Board.vue'
     import './assets/main.css';
 
+    // Create refs for storing the board state and name, and whether the user is editing
     let boardCreated = ref(false);
     let boardName = ref('My awesome new board');
     let editing = ref(false);
 
+    // Create refs for storing the list of boards and the current board
     let boards = ref([]);
     let currentBoard = ref(null);
 
+    /**
+    * Function to create a new board
+    */
     const createBoard = () => {
         boardCreated.value = true;
         const newBoard = {
@@ -24,6 +30,9 @@
         console.log(currentBoard.value);
     }
 
+    /**
+    * Function to navigate to the previous board
+    */
     const goBackToPreviousBoard = () => {
         if (currentBoard.value && boards.value.length > 1) {
             const currentIndex = boards.value.indexOf(currentBoard.value);
@@ -32,6 +41,10 @@
         } 
     }
 
+    /**
+    * Function to check if the current board is the last board
+    * @returns {boolean} - True if the current board is the last board, false otherwise.
+    */
     const isCurrentBoardLastBoard = () => {
         if (currentBoard.value && boards.value.length > 0) {
             const lastIndex = boards.value.length - 1;
@@ -40,17 +53,23 @@
         return false;
     }
 
+    /**
+    * Function to navigate to the next board
+    */
     const goToNextBoard = () => {
-    if (currentBoard.value && boards.value.length > 1) {
-        const currentIndex = boards.value.indexOf(currentBoard.value);
-        const nextIndex = currentIndex < boards.value.length - 1 ? currentIndex + 1 : 0;
-        currentBoard.value = boards.value[nextIndex];
+        if (currentBoard.value && boards.value.length > 1) {
+            const currentIndex = boards.value.indexOf(currentBoard.value);
+            const nextIndex = currentIndex < boards.value.length - 1 ? currentIndex + 1 : 0;
+            currentBoard.value = boards.value[nextIndex];
+        }
     }
-}
 </script>
 
 <template>
     <section class="appSkeleton">
+        <!-- <Register v-if="!user" />
+        <Login v-if="!user" /> -->
+        <div v-if="error" class="error">{{ error }}</div>
         <header>
             <div v-if="boardCreated">
                 <div class="boardMenu">
