@@ -7,7 +7,6 @@ Update 01/07/23: the project is coming to an end, the week is over. I had set ou
 ## Todo-list (to resume later, when I have more time on my hands)
 
 - Add image placeholders
-- Make the app fully responsive
 - Rework back office
 - Fix notes and checklists which have some severe issues with position and size when switching boards
 
