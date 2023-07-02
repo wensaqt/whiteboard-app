@@ -6,11 +6,10 @@ Update 01/07/23: the project is coming to an end, the week is over. I had set ou
 
 ## Todo-list (to resume later, when I have more time on my hands)
 
-- Fix the app's use on Chrome, which has many display bugs for some reason
-- Ensure that resizing a note does not overflow the board
 - Add image placeholders
 - Make the app fully responsive
-- Add data to users' collection to save boards & there components 
+- Rework back office
+- Fix notes and checklists which have some severe issues with position and size when switching boards
 
 ## Recommended IDE Setup
 

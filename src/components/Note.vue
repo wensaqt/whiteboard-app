@@ -11,7 +11,7 @@
     <textarea v-if="editing" v-model="noteContent" @blur="emitNoteNewContent" @keyup.enter.prevent="emitNoteNewContent"></textarea>
 
 
-        <p v-else>{{ noteContent }}</p>
+        <p v-else>{{ note.noteContent }}</p>
         <div class="resize-handle" @mousedown.stop="initNoteResizing" @mousemove.stop="resizeNote" @mouseup.stop="stopNoteResizing"></div>
     </div>
 </template>

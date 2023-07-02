@@ -28,7 +28,7 @@
     const username = ref('');
     const email = ref('');
     const password = ref('');
-    const error = ref('');
+    // const error = ref('');
 
     const register = async () => {
         try {

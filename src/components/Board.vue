@@ -10,6 +10,7 @@
             :checklist="checklist"
             @update-position="updateChecklistPosition"
             @update-tasks="updateChecklistTasks"
+            @delete-checklist="dropChecklist"
         />
         <Note
             v-for="(note, index) in board.notes" 
@@ -44,6 +45,18 @@
         };
         props.board.checklists.push(newChecklist);
         console.log(props.board.checklists);
+    }
+
+    /**
+     * Deletes a specific checklist from the board's checklists array.
+     *
+     * @param {number} id - The ID of the checklist.
+     */
+     const dropChecklist = (id) => {
+        const index = props.board.checklists.findIndex(checklist => checklist.id === id);
+        if (index !== -1) {
+            props.board.checklists.splice(index, 1);
+        }
     }
 
     /**

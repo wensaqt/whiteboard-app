@@ -6,6 +6,7 @@
         @mousemove="updateElementPosition"
         @mouseup="mouseUp"
     >
+        <font-awesome-icon :icon="['fas', 'xmark']" class="deleteIcon" @click="deleteChecklist"/>
         <div class="tasks">
             <div class="task" v-for="(task, index) in props.checklist.tasks" :key="index">
                 {{ task.value }}
@@ -40,7 +41,7 @@
     let newTask = ref('');
 
     // Define the events this component can emit
-    const emit = defineEmits(['update-position', 'update-tasks']);
+    const emit = defineEmits(['update-position', 'update-tasks', 'delete-checklist']);
 
     /**
     * When the component is mounted, set the x and y values
@@ -89,13 +90,20 @@
     }
 
     /**
-    * Function to update the position of an element
+    * Function to update the position of a specific checklist
     * @param {Object} event - The event object
     */
     const updateElementPosition = (event) => {
         mouseMove(event);
         emit('update-position', { id: props.checklist.id, x: x.value, y: y.value });
     };
+
+    /**
+    * Function to delete a checklist
+    */
+    const deleteChecklist = () => {
+        emit('delete-checklist', props.checklist.id);
+    }
 
 </script>
 
@@ -162,6 +170,17 @@
 
     .trashIcon:hover {
         transform: scale(1.2);
+    }
+
+    .deleteIcon {
+        margin-left: auto; 
+        margin-bottom: 5px; 
+        width: 20px; 
+        height: 20px;
+    }
+
+    .deleteIcon:hover {
+        cursor: pointer;
     }
 
     .checkmark.is-checked {

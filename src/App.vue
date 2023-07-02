@@ -69,7 +69,7 @@
     <section class="appSkeleton">
         <!-- <Register v-if="!user" />
         <Login v-if="!user" /> -->
-        <div v-if="error" class="error">{{ error }}</div>
+        <!-- <div v-if="error" class="error">{{ error }}</div> -->
         <header>
             <div v-if="boardCreated">
                 <div class="boardMenu">
@@ -154,8 +154,7 @@ main {
     color: white;
 }
 .boardContainer {
-    height: 800px;
-    min-height: 800px;
+    height: 80vh;
     max-height: none;
     width: 80vw;
 }
